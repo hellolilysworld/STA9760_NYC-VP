@@ -17,7 +17,7 @@ sodapy==1.5.0
 ### Python Scripts
 
 ##### Get the data from API using `sodapy`
--`nycvpp/src/nycvpk/api.py`
+`nycvpp/src/nycvpk/api.py`
 
 ```
 from sodapy import Socrata
@@ -71,4 +71,4 @@ if __name__ == "__main__":
 
   
 #### Commands
-`docker run -v $(pwd):/app -e APP_KEY=`{YOUR_APP_KEY} `-t bigdata1:1.0 python main.py --page_size=1000 --num_pages=4 --output=results3.json 
+`docker run -v $(pwd):/app -e APP_KEY=`{YOUR_APP_KEY} `-t bigdata1:1.0 python main.py --page_size=1000 --num_pages=4 --output=results.json 
