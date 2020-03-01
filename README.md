@@ -17,7 +17,7 @@ sodapy==1.5.0
 ### Python Scripts
 
 ##### Get the data from API using `sodapy`
--`nycvpp/src/nycvpk/api.py`
+`nycvpp/src/nycvpk/api.py`
 
 ```
 from sodapy import Socrata
