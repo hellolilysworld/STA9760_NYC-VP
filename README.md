@@ -1,92 +1,73 @@
 # NYC Parking Violations
 
-## Part 1: Python Scripting	
+## Part1	
 
-### File Structure
-  ```console
-  $ tree
-  ```
+### Installing in `requirements.txt`
 
-  ```console
-  .
-  ├── Dockerfile
-  ├── main.py
-  ├── requirements.txt
-  └── src
-      └── bigdata1
-          └── api.py
+```
+certifi==2019.11.28
+chardet==3.0.4
+idna==2.9
+requests==2.23.0
+urllib3==1.25.8
+pandas==0.24.1
+sodapy==1.5.0
+```
 
-  2 directories, 4 files
-  ```
-
-### Packages 
-- Specified in `requirements.txt`
-
-  - `requests`
-  - `pandas`
-  - `numpy`
-  - `sklearn`
-  - `pytest`
-  - `pyyaml`
-  - `matplotlib`
-  - `pygithub`
-  - `scipy`
-  - `sodapy`
-  - `pprint`
-  
 ### Python Scripts
 
-- `main.py`
+##### Get the data from API using `sodapy`
+-`nycvpp/src/nycvpk/api.py`
 
-```py
-import argparse
-
-from src.bigdata1.api import get_results
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--page_size", type=int)
-    parser.add_argument("--num_pages", default=None, type=int)
-    parser.add_argument("--output", default=None)
-    args = parser.parse_args()
-
-    get_results(args.page_size, args.num_pages, args.output)
- ```
-
-- `src/bigdata1/api.py`
-
-```py
-import os
-import json 
-import pprint
+```
 from sodapy import Socrata
 
-data_id = 'nc67-uf89'
-client = Socrata('data.cityofnewyork.us', os.environ.get("APP_KEY"))
-count = int(client.get(data_id, select='COUNT(*)')[0]['COUNT'])
+def get_data(app_key,page_size,num_pages):
+	
+	client = Socrata("data.cityofnewyork.us",app_key)
 
-def get_results(page_size, num_pages, output):
-    if not num_pages:
-        num_pages = count // page_size + 1
-    if output:
-        create_records(output)
-    for page in range(num_pages):
-        offset = page * page_size
-        page_records = client.get(data_id, limit=page_size, offset=offset)
-        for record in page_records:
-            if output:
-                add_record(record, output)
-            else:
-                pprint.pprint(record, indent=4)
+	results = []
+	for i in range(0, num_pages):
+  ```
+  ##### in sodapy each the total amount of data = limit * number of pages, offset=the start of each new page
+  ```
+		results.append(client.get('nc67-uf89', limit=page_size, offset=i*(page_size)))
+	return results
+  ```
 
-def create_records(output):
-    with open(output, 'w') as out_file:
-        pass
+#### Call the function in `main.py`
 
-def add_record(record, output):
-    with open(output, 'a') as out_file: 
-        out_file.write(json.dumps(record) + '\n')
 ```
+
+import os
+
+import argparse
+
+```
+##### The `OS` module in python provides functions for interacting with the operating system. 
+##### The `argparse` module makes it easy to write user-friendly command-line interfaces. It parses the defined arguments from the sys. argv .
+
+```
+from src.nycvk.api import get_data
+
+if __name__ == "__main__":
+
+	app_key = os.getenv(f'APP_KEY')
+	print(app_key)
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--page_size", type=int)
+	parser.add_argument("--num_pages", default=None, type=int)
+	parser.add_argument("--output", default=None)
+	args = parser.parse_args()
+    
+	data=get_data(app_key, args.page_size, args.num_pages)
+	with open(args.output, "w") as outfile: 	
+
+		for lines in data:
+			for line in lines:
+				outfile.write(f"{line}"+'\n')
+```
+
 
   
 #### Commands
