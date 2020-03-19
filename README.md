@@ -86,4 +86,9 @@ if __name__ == "__main__":
 ##### results can also be found in 
   
   http://localhost:9200/nycvp/violations/_search?q=state:NJ+license_type:PAS&size=1
+  
+  
+
+## Part3
+![](/part3/1.png)
 
