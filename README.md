@@ -72,3 +72,18 @@ if __name__ == "__main__":
   
 #### Commands
 `docker run -v $(pwd):/app -e APP_KEY={YOUR_APP_KEY} -t bigdata1:1.0 python main.py --page_size=1000 --num_pages=4 --output=results.json`
+
+## Part2
+#### Commands
+ 
+ `docker-compose run -e APP_KEY={YOUR_APP_KEY} -v ${PWD}:/app pyth python -m main --page_size=100 --num_pages=20 —output=results.json`
+ 
+#### Query ElasticSearch
+#####query 1 record of New Jersey and the license_type:PAS, output is save as `output.txt` in part2.
+
+ `curl -o output.txt http://localhost:9200/nycvp/violations/_search\?q\=state:NJ+license_type:PAS&size=1`
+ 
+#####results can also be found in 
+  
+  http://localhost:9200/nycvp/violations/_search?q=state:NJ+license_type:PAS&size=1
+
