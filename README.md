@@ -90,5 +90,20 @@ if __name__ == "__main__":
   
 
 ## Part3
+### Average penalty_Amount VS average fine amount over five years
 ![](/part3/1.png)
+
+### Average reduction amount by county
+![](/part3/2.png)
+
+### Most popular violation
+![](/part3/3.png)
+
+### payment_amount range distribution 
+![](/part3/4.png)
+
+
+
+
+
 
